@@ -1,0 +1,17 @@
+.primary-header {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  background: var(--clr-primary-400);
+  /* border-radius: 0 0 2.5rem 2.5rem; */
+}
+
+.logo > img {
+  width: 7.5rem;
+}
+
+@media (width>=35em) {
+  .logo > img {
+    width: 10rem;
+  }
+}

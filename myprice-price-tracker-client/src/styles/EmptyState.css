@@ -1,0 +1,16 @@
+.empty-state {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 0 0 1em;
+}
+
+.empty-state__image {
+  width: 100%;
+}
+
+@media (width>=48em) {
+  .empty-state__image {
+    width: 25%;
+  }
+}

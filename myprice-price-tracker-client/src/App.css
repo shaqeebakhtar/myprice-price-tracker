@@ -1,0 +1,42 @@
+.button {
+  cursor: pointer;
+  outline: 0;
+  border: 0;
+  border-radius: 100vw;
+  font-weight: 700;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 110px;
+  border-radius: 0.25em;
+  padding: 0.75em 1.25em;
+}
+
+.status__circle {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status--higher {
+  background: hsl(var(--clr-yellow) / 0.2);
+  color: hsl(var(--clr-yellow));
+}
+
+.status--higher > .status__circle {
+  background: hsl(var(--clr-yellow));
+}
+
+.status--lower {
+  background: hsl(var(--clr-green) / 0.2);
+  color: hsl(var(--clr-green));
+}
+
+.status--lower > .status__circle {
+  background: hsl(var(--clr-green));
+}
