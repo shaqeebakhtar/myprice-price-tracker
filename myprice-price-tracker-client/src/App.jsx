@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
 
 import "./App.css";
 
 import Tracklist from "./pages/track_list/Tracklist";
 import ProductDetails from "./pages/product_details/ProductDetails";
 import PageNotFound from "./components/PageNotFound";
-import { data } from "./utils/SampleData";
-
-// const data = JSON.parse(localStorage.getItem("data"));
 
 function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("/api")
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Router>
       <Routes>

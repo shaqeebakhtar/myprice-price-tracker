@@ -24,7 +24,7 @@ const ProductTrack = ({ product }) => {
         <span className="fs-body-sm">Current Price</span>
         <p className="fs-title fw-bold">
           <span>₹</span>
-          {product.currPrice}
+          {!product.currPrice ? "000" : product.currPrice}
         </p>
       </div>
       <div className="product-track__target-price | gap-sm">

@@ -5,6 +5,7 @@ import "../../styles/ProductDetails.css";
 
 import angleRightIcon from "../../assets/angle-right.svg";
 import bellAlertIcon from "../../assets/bell-alert.svg";
+import placeholderImage from "../../assets/placeholder-image.jpg";
 
 import Header from "../../components/header";
 import DeletePopup from "../../components/popups/DeletePopup";
@@ -99,9 +100,9 @@ const ProductDetails = ({ data }) => {
           <div
             className="product__image"
             style={{
-              backgroundImage: `url(
-                ${product.imageURL}
-              )`,
+              backgroundImage: `url(${
+                !product.imageURL ? placeholderImage : product.imageURL
+              })`,
             }}
           ></div>
           <h3 className="product__title | fs-title fw-bold">
@@ -139,7 +140,7 @@ const ProductDetails = ({ data }) => {
               <span className="fs-body-sm">Current Price</span>
               <p className="fs-title fw-bold">
                 <span>₹</span>
-                {product.currPrice}
+                {!product.currPrice ? "000" : product.currPrice}
               </p>
             </div>
             <a
