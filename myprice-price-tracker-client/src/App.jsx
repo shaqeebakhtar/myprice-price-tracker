@@ -13,10 +13,10 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("/api")
+      .get("/api/tracklist")
       .then((res) => setData(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => console.error(err));
+  }, [data]);
 
   return (
     <Router>
