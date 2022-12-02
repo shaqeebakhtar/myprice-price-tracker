@@ -9,6 +9,7 @@ const productSchema = new Schema({
   targetPrice: Number,
   currPrice: Number,
   dateCreated: { type: Date, default: Date.now },
+  lastUpdated: Date,
 });
 
 const Product = mongoose.model("product", productSchema);

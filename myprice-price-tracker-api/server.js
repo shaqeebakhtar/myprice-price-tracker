@@ -27,6 +27,7 @@ app.post("/api/track", async (req, res) => {
     productSource: req.body.productSource,
     targetPrice: req.body.targetPrice,
     currPrice: req.body.currPrice,
+    lastUpdated: Date.now(),
   });
 
   const createProductTrack = await newProduct.save();
@@ -39,6 +40,7 @@ app.put("/api/:productId", async (req, res) => {
     productName: req.body.productName,
     productSource: req.body.productSource,
     targetPrice: req.body.targetPrice,
+    lastUpdated: Date.now(),
   });
   res.json(updateProduct);
 });
