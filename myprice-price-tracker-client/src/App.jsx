@@ -16,17 +16,13 @@ function App() {
       .get("/api/tracklist")
       .then((res) => setData(res.data))
       .catch((err) => console.error(err));
-  }, [data]);
+  }, []);
 
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Tracklist data={data} />} />
-        <Route
-          exact
-          path="product/:productName"
-          element={<ProductDetails data={data} />}
-        />
+        <Route exact path="products/:productId" element={<ProductDetails />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>

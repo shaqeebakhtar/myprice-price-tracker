@@ -14,6 +14,11 @@ app.get("/api/tracklist", async (req, res) => {
   res.json(tracklist);
 });
 
+app.get("/api/:productId", async (req, res) => {
+  const product = await Product.findById(req.params.productId);
+  res.json(product);
+});
+
 app.post("/api/track", async (req, res) => {
   const newProduct = new Product({
     productName: req.body.productName,
@@ -26,6 +31,21 @@ app.post("/api/track", async (req, res) => {
 
   const createProductTrack = await newProduct.save();
   res.json(createProductTrack);
+});
+
+app.put("/api/:productId", async (req, res) => {
+  const updateProduct = await Product.findByIdAndUpdate(req.params.productId, {
+    productURL: req.body.productURL,
+    productName: req.body.productName,
+    productSource: req.body.productSource,
+    targetPrice: req.body.targetPrice,
+  });
+  res.json(updateProduct);
+});
+
+app.delete("/api/:productId", async (req, res) => {
+  const deletedProduct = await Product.findByIdAndDelete(req.params.productId);
+  res.json(deletedProduct);
 });
 
 connect(process.env.MONGO_URL).then(() =>

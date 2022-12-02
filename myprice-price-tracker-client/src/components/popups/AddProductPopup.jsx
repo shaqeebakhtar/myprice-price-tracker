@@ -10,14 +10,15 @@ const AddProductPopup = ({ setAddPopupActive }) => {
     Object.freeze({
       productURL: null,
       productName: null,
+      imageURL: null,
       productSource: "Amazon",
       targetPrice: null,
+      currPrice: null,
     })
   );
 
   // save track details
   const handleChange = (e) => {
-    console.log(e.target.value, e.target.name);
     setTrack({ ...track, [e.target.name]: e.target.value.trim() });
   };
 
@@ -54,7 +55,6 @@ const AddProductPopup = ({ setAddPopupActive }) => {
       await axios
         .post("/api/track", track)
         .then((res) => {
-          console.log(res);
           setAddPopupActive(false);
         })
         .catch((err) => console.error(err));
