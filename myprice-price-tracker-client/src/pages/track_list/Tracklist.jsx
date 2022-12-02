@@ -50,7 +50,7 @@ const Tracklist = ({ data }) => {
             in tracklist
           </p>
           {data.map((product) => {
-            return <ProductTrack product={product} key={product.id} />;
+            return <ProductTrack product={product} key={product._id} />;
           })}
         </div>
       ) : (

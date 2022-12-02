@@ -1,8 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "../../styles/Popup.css";
 
-const DeletePopup = ({ setDeletePopupActive, productName }) => {
+const DeletePopup = ({ setDeletePopupActive, productName, productId }) => {
+  const navigate = useNavigate();
+
+  const handleDelete = (productId) => {
+    axios
+      .delete(`/api/${productId}`)
+      .then((res) => {
+        setDeletePopupActive(false);
+        navigate("/");
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="popup-backdrop">
       <div className="popup | bg-neutral-100">
@@ -25,7 +39,12 @@ const DeletePopup = ({ setDeletePopupActive, productName }) => {
           >
             Cancel
           </button>
-          <button className="button | button--delete">Delete</button>
+          <button
+            className="button | button--delete"
+            onClick={() => handleDelete(productId)}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
