@@ -1,37 +1,69 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 import "../../styles/Popup.css";
 
 import { checkURL, checkName, checkPrice } from "../../utils/Validation";
 
 const EditProductPopup = ({ setEditPopupActive, product }) => {
-  const [track, setTrack] = useState({
-    productUrl: product.productURL,
-    productName: product.productName,
-    productSource: product.productSource,
-    targetPrice: product.targetPrice,
-  });
+  const [track, setTrack] = useState(
+    Object.freeze({
+      productURL: product.productURL,
+      productName: product.productName,
+      productSource: product.productSource,
+      targetPrice: product.targetPrice,
+    })
+  );
+  console.log(product);
 
   // save track details
   const handleChange = (e) => {
     setTrack({ ...track, [e.target.name]: e.target.value.trim() });
+    console.log(e.target.value.trim());
   };
 
   // check validity on submit
-  const checkValidity = () => {
-    track.productUrl
-      ? checkURL("Please enter a valid URL")
-      : checkURL("Product URL is required");
-    track.productName
-      ? checkName("Please enter product name")
-      : checkName("Product name is required");
-    track.targetPrice
-      ? checkPrice("Please enter your target price")
-      : checkPrice("Target price is required");
+  // const isValidURL = () => {
+  //   if (!track.productURL) {
+  //     checkURL("Product URL is required");
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
+
+  const isValidName = () => {
+    if (!track.productName) {
+      checkName("Product name is required");
+      return false;
+    }
+
+    return true;
   };
 
-  const handleSubmit = () => {
-    checkValidity();
+  const isValidPrice = () => {
+    if (!track.targetPrice) {
+      checkPrice("Target price is required");
+      return false;
+    }
+
+    return true;
+  };
+
+  const { productId } = useParams();
+
+  const updateTrackDetails = async (productId) => {
+    await axios
+      .put(`/api/${productId}`, track)
+      .then((res) => setEditPopupActive(false))
+      .catch((err) => console.error(err));
+  };
+
+  const handleUpdate = () => {
+    if (isValidName() && isValidPrice()) {
+      updateTrackDetails(productId);
+    }
   };
 
   return (
@@ -47,8 +79,8 @@ const EditProductPopup = ({ setEditPopupActive, product }) => {
               <input
                 type="text"
                 id="product-url"
-                name="productUrl"
-                value={track.productUrl}
+                name="productURL"
+                value={track.productURL}
                 placeholder="e.g. https://www.amazon.com/leather-jacket/"
                 required
                 disabled
@@ -78,10 +110,10 @@ const EditProductPopup = ({ setEditPopupActive, product }) => {
             </div>
             <div className="source-target">
               <div className="form-input">
-                <label htmlFor="product-website">Product Website/App</label>
+                <label htmlFor="product-source">Product Website/App</label>
                 <select
-                  name="productWebsite"
-                  id="product-website"
+                  name="productSource"
+                  id="product-source"
                   onChange={handleChange}
                 >
                   <option
@@ -134,7 +166,7 @@ const EditProductPopup = ({ setEditPopupActive, product }) => {
           >
             Cancel
           </button>
-          <button className="button | button--save" onClick={handleSubmit}>
+          <button className="button | button--save" onClick={handleUpdate}>
             Update
           </button>
         </div>

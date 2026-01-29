@@ -12,7 +12,7 @@ const ProductTrack = ({ product }) => {
   return (
     <div className="product-track | bg-neutral-100 box-shadow">
       <Link
-        to={`product/${product.productName}`}
+        to={`products/${product._id}`}
         className="product-track__name | gap-sm"
       >
         <span className="fs-body-sm text-neutral-500">Product Name</span>
@@ -24,7 +24,7 @@ const ProductTrack = ({ product }) => {
         <span className="fs-body-sm">Current Price</span>
         <p className="fs-title fw-bold">
           <span>₹</span>
-          {product.currPrice}
+          {!product.currPrice ? "000" : product.currPrice}
         </p>
       </div>
       <div className="product-track__target-price | gap-sm">
@@ -51,7 +51,7 @@ const ProductTrack = ({ product }) => {
           <span className="buy-link__website">on {product.productSource}</span>
         </a>
         <Link
-          to={`product/${product.productName}`}
+          to={`products/${product._id}`}
           className="product-track__view-details"
         >
           <img src={angleRightIcon} />

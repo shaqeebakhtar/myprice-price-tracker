@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "../../styles/ProductDetails.css";
 
 import angleRightIcon from "../../assets/angle-right.svg";
 import bellAlertIcon from "../../assets/bell-alert.svg";
+import placeholderImage from "../../assets/placeholder-image.jpg";
 
 import Header from "../../components/header";
 import DeletePopup from "../../components/popups/DeletePopup";
@@ -13,7 +15,8 @@ import EditProductPopup from "../../components/popups/EditProductPopup";
 import { StatusHigher } from "../../components/ui/Status";
 import { StatusLower } from "../../components/ui/Status";
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = () => {
+  const [product, setProduct] = useState([]);
   const [alertEmail, setAlertEmail] = useState("email@domain.com");
   const [deletePopupActive, setDeletePopupActive] = useState(false);
   const [emailAlertPopupActive, setEmailAlertPopupActive] = useState(false);
@@ -27,13 +30,20 @@ const ProductDetails = ({ data }) => {
     document.body.classList.remove("popup-active");
   }
 
-  const { productName } = useParams();
+  const { productId } = useParams();
 
-  const productArray = data.filter((product) => {
-    return productName === product.productName;
-  });
+  const fetchProductDetails = async (productId) => {
+    await axios
+      .get(`/api/${productId}`)
+      .then((res) => {
+        setProduct(res.data);
+      })
+      .catch((err) => console.error(err));
+  };
 
-  const product = productArray[0];
+  useEffect(() => {
+    fetchProductDetails(productId);
+  }, []);
 
   return (
     <>
@@ -43,6 +53,7 @@ const ProductDetails = ({ data }) => {
           <DeletePopup
             setDeletePopupActive={setDeletePopupActive}
             productName={product.productName}
+            productId={product._id}
           />
         )}
 
@@ -99,9 +110,9 @@ const ProductDetails = ({ data }) => {
           <div
             className="product__image"
             style={{
-              backgroundImage: `url(
-                ${product.imageURL}
-              )`,
+              backgroundImage: `url(${
+                !product.imageURL ? placeholderImage : product.imageURL
+              })`,
             }}
           ></div>
           <h3 className="product__title | fs-title fw-bold">
@@ -139,7 +150,7 @@ const ProductDetails = ({ data }) => {
               <span className="fs-body-sm">Current Price</span>
               <p className="fs-title fw-bold">
                 <span>₹</span>
-                {product.currPrice}
+                {!product.currPrice ? "000" : product.currPrice}
               </p>
             </div>
             <a
